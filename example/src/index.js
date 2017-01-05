@@ -1,7 +1,10 @@
 import React from "react";
 
+// Added a custom Deck component, since I needed access to the way the store was created
+import Deck from "./deck";
+
 import {
-  Appear, BlockQuote, Cite, CodePane, Deck, Fill,
+  Appear, BlockQuote, Cite, CodePane, Fill,
   Heading, Image, Layout, Link, ListItem, List, Markdown, Quote, Slide,
   TableHeaderItem, TableItem, TableRow, Table, Text
 } from "../../src";
@@ -28,7 +31,7 @@ const theme = createTheme({
   primary: "#ff4081"
 });
 
-export default class Presentation extends React.Component {
+class Presentation extends React.Component {
   render() {
     return (
       <Deck transition={["zoom", "slide"]} theme={theme} transitionDuration={500}>
@@ -191,3 +194,14 @@ export default class Presentation extends React.Component {
     );
   }
 }
+
+const slides = new Presentation().render().props.children.map((el) => {
+  if (el.type.displayName === "Slide") {
+    return "slide";
+  }
+})
+.filter((slide) => slide);
+
+console.log(slides);
+
+export default Presentation;
